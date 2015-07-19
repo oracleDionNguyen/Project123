@@ -34,7 +34,7 @@ public class UserInfo_Frame extends javax.swing.JFrame {
         try {
             pst=conn.prepareStatement(sql);
              rs = pst.executeQuery();
-             userInfo.setModel(DbUtils.resultSetToTableModel(rs));
+             Table_UserInfo.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex);
         }finally {
@@ -59,9 +59,14 @@ public class UserInfo_Frame extends javax.swing.JFrame {
         jToolBar1 = new javax.swing.JToolBar();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        userInfo = new javax.swing.JTable();
+        Table_UserInfo = new javax.swing.JTable();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel9 = new javax.swing.JPanel();
+        Combo_parameter = new javax.swing.JComboBox();
+        jLabel13 = new javax.swing.JLabel();
+        Min = new javax.swing.JTextField();
+        Max = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -104,7 +109,7 @@ public class UserInfo_Frame extends javax.swing.JFrame {
 
         jDesktopPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Table UserInfo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(51, 0, 51))); // NOI18N
 
-        userInfo.setModel(new javax.swing.table.DefaultTableModel(
+        Table_UserInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -115,7 +120,12 @@ public class UserInfo_Frame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(userInfo);
+        Table_UserInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Table_UserInfoMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(Table_UserInfo);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -134,15 +144,51 @@ public class UserInfo_Frame extends javax.swing.JFrame {
         );
         jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
+        Combo_parameter.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pressure", "VolumeFlow", "Tempearature", "RotationalSpeed", "Torque" }));
+
+        jLabel13.setText("Value");
+
+        jButton5.setText("OK");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 547, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel13)
+                        .addGap(18, 18, 18)
+                        .addComponent(Min, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(Max, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(135, 135, 135)
+                        .addComponent(Combo_parameter, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(173, 173, 173)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 235, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Combo_parameter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(Min, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Max, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton5)
+                .addContainerGap(100, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("User Input", jPanel9);
@@ -433,7 +479,68 @@ public class UserInfo_Frame extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
+        update_table();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void Table_UserInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_UserInfoMouseClicked
+         try{
+            int row = Table_UserInfo.getSelectedRow();
+            String Table_click = (Table_UserInfo.getModel().getValueAt(row, 0).toString());
+            //System.out.println("Table_Click is: " + Table_click);
+            String sql = "select * from UserInfo where Pumpid='" + Table_click + "'";
+             pst = conn.prepareStatement(sql);
+             rs = pst.executeQuery();
+             
+              if(rs.next()){
+                 String pumpID = rs.getString("Pumpid");
+                String  inputDate= rs.getString("Date");
+                 String pressure = rs.getString("pressure");
+                 String tempt = rs.getString("temperature");
+                 String vol = rs.getString("volume");
+                 String roatitional = rs.getString("roatitionalSpeed");
+                 txt_pumid.setText(pumpID);
+                 ((JTextField)txt_date.getDateEditor().getUiComponent()).setText(inputDate); 
+                // txt_date.setDate(inputDate);
+                 txt_pressure.setText(pressure);
+                 txt_temperature.setText(tempt);
+                 txt_volume.setText(vol);
+                 txt_rotationalSpd.setText(roatitional);
+              }
+         } catch (Exception e){
+             JOptionPane.showMessageDialog(null, e);
+         }    
+           
+    }//GEN-LAST:event_Table_UserInfoMouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+       
+            String val1 = Min.getText();
+            String val2 = Max.getText();
+            String tmp = Combo_parameter.getSelectedItem().toString();
+            if(tmp=="Pressure"){
+                try {  
+                    String sql ="select * from UserInfo where pressure between '" + val1 + "' and '" + val2 + "' ";
+                    System.out.println(sql);
+                    pst = conn.prepareStatement(sql);
+                    rs = pst.executeQuery();
+                    Table_UserInfo.setModel(DbUtils.resultSetToTableModel(rs));
+
+               } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e);
+               }
+            } 
+            else if (tmp == "VolumeFlow"){
+                 try {  
+                    String sql ="select * from UserInfo where volume between '" + val1+ "'and '" + val2 + "' ";
+                    pst = conn.prepareStatement(sql);
+                    rs = pst.executeQuery();
+                    Table_UserInfo.setModel(DbUtils.resultSetToTableModel(rs));
+
+               } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e);
+               }
+            }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -473,16 +580,22 @@ public class UserInfo_Frame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox Combo_parameter;
+    private javax.swing.JTextField Max;
+    private javax.swing.JTextField Min;
+    private javax.swing.JTable Table_UserInfo;
     private com.toedter.calendar.JDateChooser df;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -513,6 +626,5 @@ public class UserInfo_Frame extends javax.swing.JFrame {
     private javax.swing.JTextField txt_temperature;
     private javax.swing.JTextField txt_valueInt;
     private javax.swing.JTextField txt_volume;
-    private javax.swing.JTable userInfo;
     // End of variables declaration//GEN-END:variables
 }
