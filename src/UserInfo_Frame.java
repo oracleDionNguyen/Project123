@@ -603,17 +603,18 @@ public class UserInfo_Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void barChart_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barChart_btnActionPerformed
+        //create dataset values
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         dataset.setValue(80, "Marks", "Student1");
         dataset.setValue(50, "Marks", "Student2");
         dataset.setValue(75, "Marks", "Student3");
         dataset.setValue(95, "Marks", "Student4");
-        
+        //create bar chart
         JFreeChart chart = ChartFactory.createBarChart("Student Score", "Student Name", "Marks", dataset,PlotOrientation.VERTICAL,false,true,true);
-        
+        // create Line chart FreeChart chart = ChartFactory.createLineChart("Student Score", "Student Name", "Marks", dataset,PlotOrientation.VERTICAL,false,true,true);
+        // set properties
         chart.setBackgroundPaint(Color.YELLOW);// change background color to yellow
         chart.getTitle().setPaint(Color.RED);
-        
         
         CategoryPlot p = chart.getCategoryPlot();
         p.setRangeGridlinePaint(Color.BLUE);

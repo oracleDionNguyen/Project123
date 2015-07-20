@@ -17,7 +17,7 @@ public class javaconnect {
     public static Connection ConnectDB(){
         try {
             Class.forName("org.sqlite.JDBC");
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\n9420924\\project123.sqlite");
+            Connection conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\n9420924\\project1234.sqlite");
             //JOptionPane.showMessageDialog(null, "connection successful");
             return conn;
         }catch (Exception e){
