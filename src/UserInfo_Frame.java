@@ -8,14 +8,18 @@
  *
  * @author n9420924
  */
+import java.awt.Color;
 import java.sql.*;
-import java.awt.*;
 import javax.swing.*;
 import net.proteanit.sql.DbUtils;
-import java.util.Calendar;
-import java.util.Date;
-import java.text.*;
-import java.awt.print.*;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 public class UserInfo_Frame extends javax.swing.JFrame {
     Connection conn = null;
     ResultSet rs = null; 
@@ -57,9 +61,6 @@ public class UserInfo_Frame extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        Table_UserInfo = new javax.swing.JTable();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel9 = new javax.swing.JPanel();
         Combo_parameter = new javax.swing.JComboBox();
@@ -78,13 +79,9 @@ public class UserInfo_Frame extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jTabbedPane5 = new javax.swing.JTabbedPane();
-        jSlider1 = new javax.swing.JSlider();
-        txt_valueInt = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        df = new com.toedter.calendar.JDateChooser();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        jButton3 = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
+        jDesktopPane1 = new javax.swing.JDesktopPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Table_UserInfo = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         txt_pumid = new javax.swing.JTextField();
@@ -99,6 +96,16 @@ public class UserInfo_Frame extends javax.swing.JFrame {
         txt_rotationalSpd = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
         txt_date = new com.toedter.calendar.JDateChooser();
+        jButton7 = new javax.swing.JButton();
+        barChart_btn = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jSlider1 = new javax.swing.JSlider();
+        txt_valueInt = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        df = new com.toedter.calendar.JDateChooser();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        jButton3 = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -106,43 +113,6 @@ public class UserInfo_Frame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jToolBar1.setRollover(true);
-
-        jDesktopPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Table UserInfo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(51, 0, 51))); // NOI18N
-
-        Table_UserInfo.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        Table_UserInfo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Table_UserInfoMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(Table_UserInfo);
-
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
-        );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         Combo_parameter.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pressure", "VolumeFlow", "Tempearature", "RotationalSpeed", "Torque" }));
 
@@ -174,7 +144,7 @@ public class UserInfo_Frame extends javax.swing.JFrame {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(173, 173, 173)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(179, Short.MAX_VALUE))
+                .addContainerGap(708, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,7 +158,7 @@ public class UserInfo_Frame extends javax.swing.JFrame {
                     .addComponent(Max, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(393, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("User Input", jPanel9);
@@ -233,12 +203,12 @@ public class UserInfo_Frame extends javax.swing.JFrame {
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGap(255, 255, 255)
                         .addComponent(jButton1)))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(583, Short.MAX_VALUE))
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel10Layout.createSequentialGroup()
                     .addGap(160, 160, 160)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(304, Short.MAX_VALUE)))
+                    .addContainerGap(833, Short.MAX_VALUE)))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,37 +228,37 @@ public class UserInfo_Frame extends javax.swing.JFrame {
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 359, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(37, 37, 37))
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel10Layout.createSequentialGroup()
                     .addGap(78, 78, 78)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(131, Short.MAX_VALUE)))
+                    .addContainerGap(424, Short.MAX_VALUE)))
         );
 
-        jTabbedPane4.addTab("Decision Making", jPanel10);
-        jTabbedPane4.addTab("Parameter MIN MAX Values", jTabbedPane5);
+        jTabbedPane4.addTab("Statistics values", jPanel10);
 
-        jSlider1.setMajorTickSpacing(20);
-        jSlider1.setMaximum(120);
-        jSlider1.setMinorTickSpacing(5);
-        jSlider1.setPaintLabels(true);
-        jSlider1.setPaintTicks(true);
+        jDesktopPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Table UserInfo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(51, 0, 51))); // NOI18N
 
-        jButton2.setText("OK");
-
-        jProgressBar1.setStringPainted(true);
-
-        jButton3.setText("Progress OK");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+        Table_UserInfo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        Table_UserInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Table_UserInfoMouseClicked(evt);
             }
         });
-
-        jLabel11.setText("jLabel11");
+        jScrollPane1.setViewportView(Table_UserInfo);
 
         jLabel6.setText("PumId");
 
@@ -371,6 +341,122 @@ public class UserInfo_Frame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jButton7.setText("Pie Chart");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        barChart_btn.setText("Bar Chart");
+        barChart_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                barChart_btnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
+        jDesktopPane1.setLayout(jDesktopPane1Layout);
+        jDesktopPane1Layout.setHorizontalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 199, Short.MAX_VALUE)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                        .addComponent(jButton7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(barChart_btn))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32))
+        );
+        jDesktopPane1Layout.setVerticalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7)
+                    .addComponent(barChart_btn))
+                .addGap(0, 67, Short.MAX_VALUE))
+        );
+        jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jButton7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(barChart_btn, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jTabbedPane5.addTab("tab1", jDesktopPane1);
+
+        jTabbedPane4.addTab("Decision Making", jTabbedPane5);
+
+        jSlider1.setMajorTickSpacing(20);
+        jSlider1.setMaximum(120);
+        jSlider1.setMinorTickSpacing(5);
+        jSlider1.setPaintLabels(true);
+        jSlider1.setPaintTicks(true);
+
+        jButton2.setText("OK");
+
+        jProgressBar1.setStringPainted(true);
+
+        jButton3.setText("Progress OK");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(715, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(79, 79, 79)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(df, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jButton3)
+                                .addGap(35, 35, 35)))
+                        .addGap(35, 35, 35))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(txt_valueInt, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(57, 57, 57)
+                            .addComponent(jButton2))
+                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(93, 93, 93))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(64, 64, 64)
+                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_valueInt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addGap(18, 18, 18)
+                .addComponent(df, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addContainerGap(217, Short.MAX_VALUE))
+        );
+
+        jTabbedPane4.addTab("tab4", jPanel2);
+
+        jLabel11.setText("jLabel11");
+
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
@@ -384,78 +470,28 @@ public class UserInfo_Frame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(df, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(142, 142, 142))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(60, 60, 60)
-                                .addComponent(txt_valueInt, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(90, 90, 90))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(166, 166, 166))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(53, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
-                .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(623, 623, 623)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jLabel11)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1081, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)
-                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_valueInt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(df, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jButton3)
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(122, 122, 122)
-                        .addComponent(jLabel11))
-                    .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(71, 71, 71)
+                .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(86, 86, 86)
+                .addComponent(jLabel11)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1083, 707));
+        setSize(new java.awt.Dimension(1130, 735));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -463,54 +499,6 @@ public class UserInfo_Frame extends javax.swing.JFrame {
         int value = Integer.parseInt(txt_valueInt.getText());
         jProgressBar1.setValue(value);
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        try {
-            String sql = "insert into UserInfo (Pumpid,Date,pressure,temperature,volume,roatitionalSpeed) values (?,?,?,?,?,?)";
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, txt_pumid.getText());
-            pst.setString(2, ((JTextField) txt_date.getDateEditor().getUiComponent()).getText());
-            pst.setString(3, txt_pressure .getText());
-            pst.setString(4, txt_temperature.getText());
-            pst.setString(5, txt_volume.getText());
-            pst.setString(6, txt_rotationalSpd.getText());
-            pst.execute();
-             JOptionPane.showMessageDialog(null, "Saved");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        update_table();
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void Table_UserInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_UserInfoMouseClicked
-         try{
-            int row = Table_UserInfo.getSelectedRow();
-            String Table_click = (Table_UserInfo.getModel().getValueAt(row, 0).toString());
-            //System.out.println("Table_Click is: " + Table_click);
-            String sql = "select * from UserInfo where Pumpid='" + Table_click + "'";
-             pst = conn.prepareStatement(sql);
-             rs = pst.executeQuery();
-             
-              if(rs.next()){
-                 String pumpID = rs.getString("Pumpid");
-                String  inputDate= rs.getString("Date");
-                 String pressure = rs.getString("pressure");
-                 String tempt = rs.getString("temperature");
-                 String vol = rs.getString("volume");
-                 String roatitional = rs.getString("roatitionalSpeed");
-                 txt_pumid.setText(pumpID);
-                 ((JTextField)txt_date.getDateEditor().getUiComponent()).setText(inputDate); 
-                // txt_date.setDate(inputDate);
-                 txt_pressure.setText(pressure);
-                 txt_temperature.setText(tempt);
-                 txt_volume.setText(vol);
-                 txt_rotationalSpd.setText(roatitional);
-              }
-         } catch (Exception e){
-             JOptionPane.showMessageDialog(null, e);
-         }    
-           
-    }//GEN-LAST:event_Table_UserInfoMouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
        
@@ -541,6 +529,100 @@ public class UserInfo_Frame extends javax.swing.JFrame {
                }
             }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        try {
+            String sql = "insert into UserInfo (Pumpid,Date,pressure,temperature,volume,roatitionalSpeed) values (?,?,?,?,?,?)";
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, txt_pumid.getText());
+            pst.setString(2, ((JTextField) txt_date.getDateEditor().getUiComponent()).getText());
+            pst.setString(3, txt_pressure .getText());
+            pst.setString(4, txt_temperature.getText());
+            pst.setString(5, txt_volume.getText());
+            pst.setString(6, txt_rotationalSpd.getText());
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Saved");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        update_table();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void Table_UserInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_UserInfoMouseClicked
+        try{
+            int row = Table_UserInfo.getSelectedRow();
+            String Table_click = (Table_UserInfo.getModel().getValueAt(row, 0).toString());
+            //System.out.println("Table_Click is: " + Table_click);
+            String sql = "select * from UserInfo where Pumpid='" + Table_click + "'";
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            if(rs.next()){
+                String pumpID = rs.getString("Pumpid");
+                String  inputDate= rs.getString("Date");
+                String pressure = rs.getString("pressure");
+                String tempt = rs.getString("temperature");
+                String vol = rs.getString("volume");
+                String roatitional = rs.getString("roatitionalSpeed");
+                txt_pumid.setText(pumpID);
+                ((JTextField)txt_date.getDateEditor().getUiComponent()).setText(inputDate);
+                // txt_date.setDate(inputDate);
+                txt_pressure.setText(pressure);
+                txt_temperature.setText(tempt);
+                txt_volume.setText(vol);
+                txt_rotationalSpd.setText(roatitional);
+            }
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+    }//GEN-LAST:event_Table_UserInfoMouseClicked
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+         String pressure = txt_pressure.getText();
+         String temperature = txt_temperature.getText();
+         String volumeflow = txt_volume.getText();
+         String rotationalSpeed = txt_rotationalSpd.getText();
+         
+
+        DefaultPieDataset pieDataset = new DefaultPieDataset();
+
+        pieDataset.setValue("Pressure", new Double(pressure));
+        pieDataset.setValue("Temperature", new Double(temperature));
+        pieDataset.setValue("Volume Flow", new Double(volumeflow));
+        pieDataset.setValue("Rotational Speeed", new Double(rotationalSpeed));
+
+        //JFreeChart chart = ChartFactory.createPieChart("Pie Chart",pieDataset,true,true,true); // create normal piechart
+        //PiePlot3D p = (PiePlot)chart.getPlot();
+        JFreeChart chart = ChartFactory.createPieChart3D("Parameter Pie Chart",pieDataset,true,true,true);// create 3D piechart
+        PiePlot3D p = (PiePlot3D)chart.getPlot();
+        //p.setForegroundAlpha(TOP_ALIGNMENT);
+        ChartFrame cframe = new ChartFrame("Pie Chart", chart);
+        cframe.setVisible(true);
+        cframe.setSize(450,500);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void barChart_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barChart_btnActionPerformed
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        dataset.setValue(80, "Marks", "Student1");
+        dataset.setValue(50, "Marks", "Student2");
+        dataset.setValue(75, "Marks", "Student3");
+        dataset.setValue(95, "Marks", "Student4");
+        
+        JFreeChart chart = ChartFactory.createBarChart("Student Score", "Student Name", "Marks", dataset,PlotOrientation.VERTICAL,false,true,true);
+        
+        chart.setBackgroundPaint(Color.YELLOW);// change background color to yellow
+        chart.getTitle().setPaint(Color.RED);
+        
+        
+        CategoryPlot p = chart.getCategoryPlot();
+        p.setRangeGridlinePaint(Color.BLUE);
+        ChartFrame bframe = new ChartFrame("Bar Chart for student", chart);
+        bframe.setVisible(true);
+        bframe.setSize(450,350);
+        
+        
+    }//GEN-LAST:event_barChart_btnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -584,12 +666,14 @@ public class UserInfo_Frame extends javax.swing.JFrame {
     private javax.swing.JTextField Max;
     private javax.swing.JTextField Min;
     private javax.swing.JTable Table_UserInfo;
+    private javax.swing.JButton barChart_btn;
     private com.toedter.calendar.JDateChooser df;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton7;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -609,6 +693,7 @@ public class UserInfo_Frame extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
