@@ -9,12 +9,16 @@
  * @author n9420924
  */
 import java.awt.Color;
+import java.io.File;
 import java.sql.*;
 import javax.swing.*;
 import net.proteanit.sql.DbUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.entity.StandardEntityCollection;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.PlotOrientation;
@@ -600,6 +604,16 @@ public class UserInfo_Frame extends javax.swing.JFrame {
         ChartFrame cframe = new ChartFrame("Pie Chart", chart);
         cframe.setVisible(true);
         cframe.setSize(450,500);
+        try{
+            //save chart as PNG
+            final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+            final File file1 =new File("chart.png");
+            ChartUtilities.saveChartAsPNG(file1, chart,600 , 400,info);
+        }
+        catch (Exception e){
+            
+        }
+        
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void barChart_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barChart_btnActionPerformed
