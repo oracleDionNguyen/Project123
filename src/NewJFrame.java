@@ -1,6 +1,11 @@
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,12 +18,16 @@ import javax.swing.JFileChooser;
  * @author n9420924
  */
 public class NewJFrame extends javax.swing.JFrame {
-
+    Connection conn = null;
+    ResultSet rs = null; 
+    PreparedStatement pst = null;
     /**
      * Creates new form NewJFrame
      */
     public NewJFrame() {
         initComponents();
+        conn = javaconnect.ConnectDB();
+        update_table();
     }
 
     /**
@@ -33,6 +42,12 @@ public class NewJFrame extends javax.swing.JFrame {
         jFileChooser1 = new javax.swing.JFileChooser();
         jButton1 = new javax.swing.JButton();
         attach_path = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Table_document = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
+        txt_DocID = new javax.swing.JTextField();
+        txt_comment = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,39 +58,140 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
+        Table_document.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        Table_document.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Table_documentMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(Table_document);
+
+        jButton2.setText("Save");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        txt_DocID.setToolTipText("Doc Id");
+
+        txt_comment.setText("Your Document");
+        txt_comment.setToolTipText("Your comment for document");
+
+        jButton3.setText("open Web Page");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(168, 168, 168)
-                .addComponent(attach_path, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jButton1)
-                .addContainerGap(273, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txt_DocID, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_comment, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(164, 164, 164)
+                        .addComponent(jButton2))
+                    .addComponent(attach_path, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(199, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(139, 139, 139))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(125, 125, 125)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(attach_path, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(279, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_comment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_DocID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(jButton3)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFileChooser chooser = new JFileChooser();
+        try {
+             JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
-        File f = chooser.getSelectedFile();
+        //File f = chooser.getSelectedFile();//help to attach file
+       File f = chooser.getCurrentDirectory();// attach folder
         String filename = f.getAbsolutePath();
         attach_path.setText(filename);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+       
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            String sql = "insert into Document_table values (?,?,?)";
+            pst = conn.prepareStatement(sql);
+            pst.setString(3, attach_path.getText());
+            pst.setString(1, txt_DocID.getText());
+            pst.setString(2, txt_comment.getText());
+            pst.execute();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error");
+        }
+        update_table();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void Table_documentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_documentMouseClicked
+        int row = Table_document.getSelectedRow();
+            String path_clicked_by_user = (Table_document.getModel().getValueAt(row, 2).toString());
+        
+        try {
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + path_clicked_by_user); 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_Table_documentMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+            String Url = "https://google.com/";
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(Url));
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -111,10 +227,35 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
     }
-
+    
+    private void update_table(){
+        String sql = "select * from Document_table";
+        try {
+            pst=conn.prepareStatement(sql);
+             rs = pst.executeQuery();
+             Table_document.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }finally {
+            try {
+                rs.close();
+                pst.close();
+                //conn.close();
+            }catch (Exception e){
+        
+             }
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Table_document;
     private javax.swing.JTextField attach_path;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JFileChooser jFileChooser1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField txt_DocID;
+    private javax.swing.JTextField txt_comment;
     // End of variables declaration//GEN-END:variables
 }

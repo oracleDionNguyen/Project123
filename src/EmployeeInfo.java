@@ -14,10 +14,9 @@ import java.text.MessageFormat;
 import javax.swing.*;
 import net.proteanit.sql.DbUtils;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Date;
-import java.text.*;
-import java.awt.print.*;
+import java.io.*;
+
 public class EmployeeInfo extends javax.swing.JFrame {
     Connection conn = null;
     ResultSet rs = null; 
@@ -104,6 +103,9 @@ public class EmployeeInfo extends javax.swing.JFrame {
         newBtn = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        txt_search = new javax.swing.JTextField();
+        printBtn = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txt_empID = new javax.swing.JTextField();
@@ -113,8 +115,11 @@ public class EmployeeInfo extends javax.swing.JFrame {
         txt_age = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txt_firstName = new javax.swing.JTextField();
-        txt_search = new javax.swing.JTextField();
-        printBtn = new javax.swing.JButton();
+        jDesktopPane1 = new javax.swing.JDesktopPane();
+        imgageOfEmp = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        attach_image = new javax.swing.JButton();
+        txt_attachImg_path = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -171,7 +176,7 @@ public class EmployeeInfo extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton1);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "List Of Button", 0, 0, new java.awt.Font("Tahoma", 2, 16), new java.awt.Color(51, 51, 255))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "List Of Button", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 16), new java.awt.Color(51, 51, 255))); // NOI18N
 
         delBtn.setText("Delete");
         delBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -233,7 +238,21 @@ public class EmployeeInfo extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Employee INFO", 0, 0, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(255, 51, 51))); // NOI18N
+        txt_search.setBackground(new java.awt.Color(0, 255, 153));
+        txt_search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_searchKeyReleased(evt);
+            }
+        });
+
+        printBtn.setText("Print");
+        printBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printBtnActionPerformed(evt);
+            }
+        });
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Employee INFO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(255, 51, 51))); // NOI18N
 
         jLabel1.setText("Employee ID");
 
@@ -293,17 +312,39 @@ public class EmployeeInfo extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        txt_search.setBackground(new java.awt.Color(0, 255, 153));
-        txt_search.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txt_searchKeyReleased(evt);
+        jScrollPane2.setViewportView(jPanel3);
+
+        imgageOfEmp.setText("jLabel5");
+
+        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
+        jDesktopPane1.setLayout(jDesktopPane1Layout);
+        jDesktopPane1Layout.setHorizontalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(imgageOfEmp, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jDesktopPane1Layout.setVerticalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(imgageOfEmp, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jDesktopPane1.setLayer(imgageOfEmp, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jButton4.setText("Image");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
             }
         });
 
-        printBtn.setText("Print");
-        printBtn.addActionListener(new java.awt.event.ActionListener() {
+        attach_image.setText("Attach Image");
+        attach_image.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                printBtnActionPerformed(evt);
+                attach_imageActionPerformed(evt);
             }
         });
 
@@ -373,55 +414,96 @@ public class EmployeeInfo extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(100, 100, 100)
                         .addComponent(txt_search, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(92, 92, 92)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(171, 171, 171)
-                                .addComponent(ComboBox_name, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(29, 29, 29)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(171, 171, 171)
+                                        .addComponent(ComboBox_name, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(36, 36, 36)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jButton4)
+                                            .addComponent(printBtn))))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(printBtn)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(attach_image))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jDesktopPane1)
+                                    .addComponent(txt_attachImg_path))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)
+                        .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(attach_image)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_attachImg_path, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ComboBox_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(printBtn))
-                        .addGap(33, 33, 33)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(40, 40, 40)
-                        .addComponent(txt_search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(132, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton4)
+                                .addGap(23, 23, 23)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(16, 16, 16)
+                .addComponent(txt_search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(134, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void Table_EmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_EmployeeMouseClicked
-        // TODO add your handling code here:
-        try{
-            int row = Table_Employee.getSelectedRow();
-            String Table_click = (Table_Employee.getModel().getValueAt(row, 0).toString());
+          int row = Table_Employee.getSelectedRow();
+          String Table_click = (Table_Employee.getModel().getValueAt(row, 0).toString());
             //System.out.println("Table_Click is: " + Table_click);
+
+        // TODO add your handling code here:
+         try {
+            String sql =" select image from EmployeeInfo where EmployeeID = '" +Table_click+ "' ";
+                pst = conn.prepareStatement(sql);
+                rs= pst.executeQuery();
+            if(rs.next()){
+                byte[] imagedata = rs.getBytes("image");
+                format= new ImageIcon(imagedata);
+                imgageOfEmp.setIcon(format);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
+        
+        try{
+           
             String sql = "select * from EmployeeInfo where EmployeeID='" + Table_click + "'";
              pst = conn.prepareStatement(sql);
              rs = pst.executeQuery();
@@ -504,12 +586,13 @@ public class EmployeeInfo extends javax.swing.JFrame {
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         try {
-            String sql="Insert into EmployeeInfo(EmployeeID,FirstName,LastName,age) values (?,?,?,?)";
+            String sql="Insert into EmployeeInfo(EmployeeID,FirstName,LastName,age,image) values (?,?,?,?,?)";
             pst = conn.prepareStatement(sql);
             pst.setString(1, txt_empID.getText());
             pst.setString(2, txt_firstName.getText());
             pst.setString(3, txt_lastName.getText());
             pst.setString(4, txt_age.getText());
+            pst.setBytes(5, person_image);
             
             pst.execute();
             JOptionPane.showMessageDialog(null, "Saved");
@@ -517,6 +600,7 @@ public class EmployeeInfo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
            
         }
+        update_table();
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBtnActionPerformed
@@ -587,6 +671,44 @@ public class EmployeeInfo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_printBtnActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        try {
+            String sql =" select image from EmployeeInfo where EmployeeID = 6 ";
+                pst = conn.prepareStatement(sql);
+                rs= pst.executeQuery();
+            if(rs.next()){
+                byte[] imagedata = rs.getBytes("image");
+                format= new ImageIcon(imagedata);
+                imgageOfEmp.setIcon(format);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void attach_imageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attach_imageActionPerformed
+        
+             JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+        File f = chooser.getSelectedFile();//help to attach file
+        String filename = f.getAbsolutePath();
+        txt_attachImg_path.setText(filename);
+        try {
+            File image = new File(filename);
+            FileInputStream fis = new FileInputStream(image);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+            for (int readNum;(readNum=fis.read(buf))!=-1;){
+                bos.write(buf, 0, readNum);
+            }
+             person_image=bos.toByteArray();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+       
+    }//GEN-LAST:event_attach_imageActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -625,10 +747,14 @@ public class EmployeeInfo extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox ComboBox_name;
     private javax.swing.JTable Table_Employee;
+    private javax.swing.JButton attach_image;
     private javax.swing.JButton delBtn;
+    private javax.swing.JLabel imgageOfEmp;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -644,6 +770,7 @@ public class EmployeeInfo extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JToolBar jToolBar1;
@@ -652,9 +779,15 @@ public class EmployeeInfo extends javax.swing.JFrame {
     private javax.swing.JButton printBtn;
     private javax.swing.JButton saveBtn;
     private javax.swing.JTextField txt_age;
+    private javax.swing.JTextField txt_attachImg_path;
     private javax.swing.JTextField txt_empID;
     private javax.swing.JTextField txt_firstName;
     private javax.swing.JTextField txt_lastName;
     private javax.swing.JTextField txt_search;
     // End of variables declaration//GEN-END:variables
+    Timer timer;
+    private ImageIcon format = null;
+    String filename=null;
+    int s = 0;
+    byte[] person_image = null;
 }
