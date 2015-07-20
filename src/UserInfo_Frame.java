@@ -8,9 +8,15 @@
  *
  * @author n9420924
  */
+import java.util.*;
+import javax.mail.*;
+
 import java.awt.Color;
+import java.awt.Desktop;
 import java.io.File;
 import java.sql.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.*;
 import net.proteanit.sql.DbUtils;
 import org.jfree.chart.ChartFactory;
@@ -22,8 +28,10 @@ import org.jfree.chart.entity.StandardEntityCollection;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.jdbc.JDBCCategoryDataset;
 public class UserInfo_Frame extends javax.swing.JFrame {
     Connection conn = null;
     ResultSet rs = null; 
@@ -102,6 +110,7 @@ public class UserInfo_Frame extends javax.swing.JFrame {
         txt_date = new com.toedter.calendar.JDateChooser();
         jButton7 = new javax.swing.JButton();
         barChart_btn = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jSlider1 = new javax.swing.JSlider();
         txt_valueInt = new javax.swing.JTextField();
@@ -109,6 +118,11 @@ public class UserInfo_Frame extends javax.swing.JFrame {
         df = new com.toedter.calendar.JDateChooser();
         jProgressBar1 = new javax.swing.JProgressBar();
         jButton3 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jButton8 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTree1 = new javax.swing.JTree();
+        btn_openFile = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -359,6 +373,13 @@ public class UserInfo_Frame extends javax.swing.JFrame {
             }
         });
 
+        jButton6.setText("Query Chart");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
@@ -371,7 +392,9 @@ public class UserInfo_Frame extends javax.swing.JFrame {
                     .addGroup(jDesktopPane1Layout.createSequentialGroup()
                         .addComponent(jButton7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(barChart_btn))
+                        .addComponent(barChart_btn)
+                        .addGap(27, 27, 27)
+                        .addComponent(jButton6))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32))
         );
@@ -386,13 +409,15 @@ public class UserInfo_Frame extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7)
-                    .addComponent(barChart_btn))
+                    .addComponent(barChart_btn)
+                    .addComponent(jButton6))
                 .addGap(0, 67, Short.MAX_VALUE))
         );
         jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jButton7, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(barChart_btn, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jButton6, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jTabbedPane5.addTab("tab1", jDesktopPane1);
 
@@ -458,6 +483,55 @@ public class UserInfo_Frame extends javax.swing.JFrame {
         );
 
         jTabbedPane4.addTab("tab4", jPanel2);
+
+        jButton8.setText("Mail");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jTree1.setModel(new FileSystemModel(new File("C:\\Users")));
+        jTree1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTree1MouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTree1);
+
+        btn_openFile.setText("open File");
+        btn_openFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_openFileActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_openFile)
+                .addGap(171, 171, 171)
+                .addComponent(jButton8)
+                .addContainerGap(498, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton8)
+                    .addComponent(btn_openFile))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 60, Short.MAX_VALUE))
+        );
+
+        jTabbedPane4.addTab("tab5", jPanel3);
 
         jLabel11.setText("jLabel11");
 
@@ -639,6 +713,72 @@ public class UserInfo_Frame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_barChart_btnActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+       try {
+           String query = "select date,pressure from UserInfo";
+           JDBCCategoryDataset  dataset=new JDBCCategoryDataset(javaconnect.ConnectDB(),query);
+           JFreeChart chart = ChartFactory.createLineChart("Query Chart", "Date", "Pressure", dataset, PlotOrientation.VERTICAL, false, true, true);
+           BarRenderer renderer = null;
+           CategoryPlot plot = null;
+           renderer = new BarRenderer();
+           ChartFrame frame = new ChartFrame("Query Chart", chart);
+           frame.setVisible(true);
+           frame.setSize(400,650);
+       } catch (Exception e){
+           
+       }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port ", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth","true");
+        props.put("mail.smtp.port","465");
+        
+        Session session = Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+                 protected PasswordAuthentication   getPasswordAuthentication(){
+                     return new PasswordAuthentication("anhduc.nguyen77000@gmail.com", "Matmachung020587");
+                 }
+                }
+                );
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("anhduc.nguyen77000@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("oracle.submit@gmail.com"));
+            message.setSubject("hi this is me");
+            message.setText("hi how are you, i am fine");
+            Transport.send(message);
+            JOptionPane.showMessageDialog(null, "message sent");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jTree1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree1MouseClicked
+        Jtreevar = jTree1.getSelectionPath().toString().replaceAll("[\\[\\]]", "").replace(", ", "\\");
+    }//GEN-LAST:event_jTree1MouseClicked
+
+    private void btn_openFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_openFileActionPerformed
+        try {
+            File Selection=new File(Jtreevar);
+            if(Selection.exists()) {
+                if(Desktop.isDesktopSupported()){
+                    Desktop.getDesktop().open(Selection);
+                }else {
+                    JOptionPane.showMessageDialog(this, "Awt Desktop is not supported","Error",JOptionPane.INFORMATION_MESSAGE);
+                }
+            }else {
+                JOptionPane.showMessageDialog(this, "File does not exist","Error",JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_openFileActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -682,13 +822,16 @@ public class UserInfo_Frame extends javax.swing.JFrame {
     private javax.swing.JTextField Min;
     private javax.swing.JTable Table_UserInfo;
     private javax.swing.JButton barChart_btn;
+    private javax.swing.JButton btn_openFile;
     private com.toedter.calendar.JDateChooser df;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -709,9 +852,11 @@ public class UserInfo_Frame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTabbedPane jTabbedPane5;
@@ -719,6 +864,7 @@ public class UserInfo_Frame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JTree jTree1;
     private com.toedter.calendar.JDateChooser txt_date;
     private javax.swing.JTextField txt_pressure;
     private javax.swing.JTextField txt_pumid;
@@ -727,4 +873,6 @@ public class UserInfo_Frame extends javax.swing.JFrame {
     private javax.swing.JTextField txt_valueInt;
     private javax.swing.JTextField txt_volume;
     // End of variables declaration//GEN-END:variables
+String time;
+String Jtreevar;
 }
